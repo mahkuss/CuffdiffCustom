@@ -33,6 +33,13 @@ filterCuff <- function(cuff, dat, filter, OK.only, fpkm) {
 
 }
 
+
+# Helper function for ggplot2 plotting of MDS plots
+# Input is a dataframe with minimum columns M1, M2, and Condition which will be mapped to x, y, and color, respectively.
+# Code also checks for an optional "Differentiation" column and maps that to shape when present (useful for cell culture expts).
+# Color scale is currently optimized for a specific 5 sample experiment. Future version should take color scale as an
+# argument to allow more flexible reusability.
+# Returns value is the ggplot object.
 publishPlot <- function(df) {
   p <- ggplot(df)
   if('Differentiation' %in% colnames(df)) {
@@ -173,6 +180,9 @@ csDensity_custom <- function (object, logMode = TRUE, pseudocount = 1, labels, f
 }
 
 
+# Modification of cummeRbund PCA plotting function that enables filtering of genes based on Cuffdiff status flag
+# and/or fpkm expression level. Also modifies plot appearance to include percent variation explained in the axis
+# labels.
 PCAplot <-  function (object, replicates = FALSE, logMode = TRUE, filter=c('HIDATA', 'FAIL'), 
   OK.only=FALSE, fpkm = -1, altPlot = FALSE, ...) 
 {
